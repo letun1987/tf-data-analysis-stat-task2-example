@@ -8,9 +8,9 @@ chat_id = 436734951 # Ваш chat ID, не меняйте название пе�
 
 def solution(p: float, x: np.array) -> tuple:
   n = len(x)
-  mean = np.mean(x)
-  std = np.std(x, ddof=1)
-  z_alpha_2 = norm.ppf(1 - (1 - p) / 2.0855369231876655)
-  lower = ((mean - z_alpha_2 * std / np.sqrt(n)) * 2) / (49*49)
-  upper = ((mean + z_alpha_2 * std / np.sqrt(n)) * 2) / (49*49)
-  return lower, upper
+  min_x = min(x)
+  alpha = 1 - p
+  beta = alpha
+  left = min(1/2 - expon.ppf(alpha) / (n * (min_x / 49**2)), 1/2 - expon.ppf(1 - beta) / (n * (min_x / 49**2)))
+  right = max(1/2 - expon.ppf(alpha) / (n * (min_x / 49**2)), 1/2 - expon.ppf(1 - beta) / (n * (min_x / 49**2)))
+  return left, right
