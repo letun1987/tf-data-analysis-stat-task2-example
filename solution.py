@@ -7,10 +7,8 @@ from scipy.stats import norm
 chat_id = 436734951 # Ваш chat ID, не меняйте название переменной
 
 def solution(p: float, x: np.array) -> tuple:
-  n = len(x)
-  min_x = min(x)
   alpha = 1 - p
-  beta = alpha
-  left = min(1/2 - expon.ppf(alpha) / (n * (min_x / 49**2)), 1/2 - expon.ppf(1 - beta) / (n * (min_x / 49**2)))
-  right = max(1/2 - expon.ppf(alpha) / (n * (min_x / 49**2)), 1/2 - expon.ppf(1 - beta) / (n * (min_x / 49**2)))
+  size = len(x)
+  left = np.sqrt(size * (x**2).mean() / (49 * stats.chi2.ppf(q=1 - alpha / 2, df=2 * size)))
+  right = np.sqrt(size * (x**2).mean() / (49 * stats.chi2.ppf(q=alpha / 2, df=2 * size)))
   return left, right
